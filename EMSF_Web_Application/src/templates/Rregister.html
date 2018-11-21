@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Join Us</title>
+    <style>
+
+
+        body {
+            background-color: #333333;
+        }
+
+        p {
+            color: grey;
+            font-size: 15px;
+        }
+
+
+        button {
+            background-color: #666666;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 30%;
+            font-size: 13px;
+            padding: 8px;
+            width: 120px
+        }
+
+        input {
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        form {
+            background-color: lightgrey;
+            margin: auto;
+            width: 30%;
+            padding: 50px;
+            border: 25px solid #666666;
+        }
+
+        footer {
+            position: relative;
+            height: 150px;
+            width: 100%;
+            background-color: #333333;
+        }
+
+        p.copyright {
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            line-height: 40px;
+            font-size: 0.7em;
+            text-align: center;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <form action="/auth/register" method="post">
+        <h1>Join Us</h1>
+        <p>Email</p>
+        <input type="email" name="email" value="{{email}}">
+        <br>
+        <p>Password</p>
+        <input type="password" name="password" value="{{password}}">
+        <p>Confirm Password</p>
+        <input type="password" name="conf_password" value="{{conf_password}}">
+        {% if conf_password != password %}
+            <h4>The password does not match</h4>
+        {% endif %}
+        <br><br><br>
+        <button type="submit"> Create Account </button>
+
+    </form>
+    <footer>
+        <p class="copyright">© Jingzhuo Cao, BlackBelt Team 2018</p>
+    </footer>
+</body>
+</html>
