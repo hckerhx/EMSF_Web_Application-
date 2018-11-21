@@ -1,7 +1,8 @@
 Web blog
 ========
 
-This is a simple web-based blog that doesn't do much but introduces Flask, HTML, CSS, Bootstrap, Jinja2, and other concepts such as endpoints and APIs.
+This is a web application prototype for EMSF capstone project. It will be demostrating some basic functionalities requested by the user as part of the overarching objective.
+Flask, Jinja, and MongoDB are used to fulfill the requirements.
 
 The blog requires MongoDB to be running without authentication enabled.
 
