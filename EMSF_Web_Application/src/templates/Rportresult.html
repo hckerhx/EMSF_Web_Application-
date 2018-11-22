@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Results Page</title>
+
+<style>
+body { background-color:#333333; }
+
+h1 { font-size:30px; }
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width:40%;
+}
+table.performance{float:right;}
+
+td,th { 
+	border: 1px solid #dddddd;
+	text-align:center;
+	width:30%;
+}
+tr:nth-child(even) {
+    	background-color: #dddddd;
+}
+
+div {
+	background-color: lightgrey;
+	border: 25px solid #666666;
+	margin: auto;
+	width: 80%;
+	padding: 25px;
+	height:500px;
+}
+
+ul.topnav {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #131314;
+}
+
+ul.topnav li {float: left;}
+ul.topnav li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+ul.topnav li a:hover:not(.active) {background-color: #59595b;}
+ul.topnav li.right {float: right;}
+
+@media screen and (max-width: 600px) {
+	ul.topnav li.right, 
+	ul.topnav li {float: none;}
+}
+
+footer {
+	position: relative;
+	height: 50px;
+	width: 100%;
+	background-color: #333333;
+}
+
+p.copyright {
+	position: absolute;
+	width: 100%;
+	color: #fff;
+	line-height: 40px;
+	font-size: 0.7em;
+	text-align: center;
+	bottom:0;
+}
+
+</style>
+
+</head>
+
+<body>
+<ul class="topnav">
+	<li><a href="home.html">Home</a></li>
+	<li><a href="back_testing.html">Back testing</a></li>
+	<li><a href="port_domi.html">Investment Improvement</a></li>
+	<li><a href="port_const.html">Portfolio Construction</a></li>
+	<li class="right"><a href="login.html">Logout</a></li>
+</ul>
+
+
+
+<div>
+<h1>Results</h1>
+
+<h3>Summary</h3>
+
+<table class="summary">
+	<tr>
+		<th>Assets</th>
+		<th>Weights</th>
+	</tr>
+	<tr>
+		<td>SP500</td>
+		<td></td>
+	</tr>
+
+	<tr>
+		<td>AAPL</td>
+		<td></td>
+	</tr>
+
+	<tr>
+		<td>JPM</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>XOM</td>
+		<td></td>
+	</tr>
+</table>
+
+<h3>Asset Allocation</h3>
+<br><br><br>
+<h3>Performance</h3>
+
+<table class="performance">
+
+	<tr>
+		<th>Return</th>
+		<td>10%</td>
+	</tr>
+   
+	<tr>
+		<th>Volatility</th>
+		<td></td>
+	</tr>
+
+	<tr>
+		<th>Sharpe Ratio</th>
+		<td></td>
+	</tr>
+</table>
+
+</div>
+<footer>
+    <p class="copyright">© Jingzhuo Cao, BlackBelt Team 2018</p>
+</footer>
+</body>
+</html>

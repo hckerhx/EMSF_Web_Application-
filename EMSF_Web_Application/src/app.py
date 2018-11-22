@@ -39,7 +39,7 @@ def login_user():
     else:
         session['email'] = "this account does not exist"
 
-    return render_template("profile.html", email=session['email'])
+    return render_template("Pprofile.html", email=session['email'])
 
 
 @app.route('/auth/register', methods=['POST'])
@@ -54,7 +54,7 @@ def register_user():
     else:
         return render_template("Rregister.html", email=email, password=password,conf_password=conf_password)
 
-    return render_template("profile.html", email=session['email'])
+    return render_template("Pprofile.html", email=session['email'])
 
 
 @app.route('/blogs/<string:user_id>')
