@@ -5,7 +5,7 @@ from models.user import User
 
 __author__ = 'jslvtr'
 
-from flask import Flask, render_template, request, session, make_response
+from flask import Flask, render_template, request, session, make_response, url_for
 
 app = Flask(__name__)  # '__main__'
 app.secret_key = "jose"
@@ -55,6 +55,12 @@ def register_user():
         return render_template("Rregister.html", email=email, password=password,conf_password=conf_password)
 
     return render_template("Pprofile.html", email=session['email'])
+
+@app.route('/portfolio', methods=['POST', 'GET'])
+def user_portfolio():
+    if request.method == 'GET':
+        #return redirect(url_for('Pprofile.html'))
+        return render_template('Bbacktesting.html')
 
 
 @app.route('/blogs/<string:user_id>')
