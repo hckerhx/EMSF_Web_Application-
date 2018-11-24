@@ -47,7 +47,6 @@ def register_user():
     password = request.form['password'] # encryption (hash password)
     conf_password = request.form['conf_password'] 
     
-    print(password, conf_password)
     if password == conf_password:
         User.register(email, password)
     else:
@@ -59,16 +58,34 @@ def register_user():
 def user_portfolio():
     if request.method == 'GET':
         return render_template('Bbacktesting.html')
+    '''
+    request.form['assets']
+    request.form['portfolio weights']
+    request.form['starting date']
+    request.form['ending date']
+    '''
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
     if request.method == 'GET':
         return render_template('Pportdom.html')
+    '''
+    request.form['assets']
+    request.form['portfolio weights']
+    request.form['starting date']
+    request.form['ending date']
+    '''
 
 @app.route('/port_construct', methods=['POST', 'GET'])
 def user_portfolio_construct():
     if request.method == 'GET':
         return render_template('Pportcons.html')
+
+    '''
+    request.form['targeted return goal']
+    request.form['starting date']
+    request.form['ending date']
+    '''
 
 
 @app.route('/blogs/<string:user_id>')

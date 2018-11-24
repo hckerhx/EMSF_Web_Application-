@@ -4,8 +4,7 @@ from flask import session
 from common.database import Database
 from models.blog import Blog
 
-__author__ = 'jslvtr'
-
+__author__ = 'hckerhx'
 
 class User(object):
     def __init__(self, email, password, _id=None):
