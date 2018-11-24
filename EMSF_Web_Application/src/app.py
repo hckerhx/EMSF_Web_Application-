@@ -22,7 +22,6 @@ def login_template():
 def register_template():
     return render_template('Rregister.html')
 
-
 @app.before_first_request
 def initialize_database():
     Database.initialize()
@@ -56,11 +55,20 @@ def register_user():
 
     return render_template("Pprofile.html", email=session['email'])
 
-@app.route('/portfolio', methods=['POST', 'GET'])
+@app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
     if request.method == 'GET':
-        #return redirect(url_for('Pprofile.html'))
         return render_template('Bbacktesting.html')
+
+@app.route('/portdomi', methods=['POST', 'GET'])
+def user_portfolio_domi():
+    if request.method == 'GET':
+        return render_template('Pportdom.html')
+
+@app.route('/port_construct', methods=['POST', 'GET'])
+def user_portfolio_construct():
+    if request.method == 'GET':
+        return render_template('Pportcons.html')
 
 
 @app.route('/blogs/<string:user_id>')
