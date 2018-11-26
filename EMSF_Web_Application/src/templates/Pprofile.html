@@ -1,123 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body {margin: 0;}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+        }
 
-div {
-    background-color: lightgrey;
-    width: 80%;
-    border: 25px solid #666666;
-    padding: 25px;
-    margin: auto;
-}
+        div {
+            background-color: lightgrey;
+            width: 80%;
+            border: 25px solid #666666;
+            padding: 25px;
+            margin: auto;
+        }
 
-ul.topnav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #131314;
-}
+        ul.topnav {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #131314;
+        }
 
-ul.topnav li {float: left;}
+            ul.topnav li {
+                float: left;
+            }
 
-ul.topnav li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
+                ul.topnav li a {
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
 
-ul.topnav li a:hover:not(.active) {background-color: #59595b;}
+                    ul.topnav li a:hover:not(.active) {
+                        background-color: #59595b;
+                    }
 
-ul.topnav li a.active {background-color: #a6a6a6;}
+                    ul.topnav li a.active {
+                        background-color: #a6a6a6;
+                    }
 
-ul.topnav li.right {float: right;}
+                ul.topnav li.right {
+                    float: right;
+                }
 
-@media screen and (max-width: 600px){
-    ul.topnav li.right, 
-    ul.topnav li {float: none;}
-}
+        @media screen and (max-width: 600px) {
+            ul.topnav li.right,
+            ul.topnav li {
+                float: none;
+            }
+        }
 
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
 
-footer {
-      position: relative;
-      height: 100px;
-      width: 100%;
-      background-color: #333333;
-  }
+        footer {
+            position: relative;
+            height: 100px;
+            width: 100%;
+            background-color: #333333;
+        }
 
-  p.copyright {
-      position: absolute;
-      width: 100%;
-      color: #fff;
-      line-height: 40px;
-      font-size: 0.7em;
-      text-align: center;
-      bottom:0;
-  }
-
-</style>
+        p.copyright {
+            position: absolute;
+            width: 100%;
+            color: #fff;
+            line-height: 40px;
+            font-size: 0.7em;
+            text-align: center;
+            bottom: 0;
+        }
+    </style>
 </head>
 
 <body style="background-color:#333333;">
 
-<ul class="topnav">
-  <li><a class="active" href="/home">Home</a></li>
-  <li><a href="/backtesting">Back testing</a></li>
-  <li><a href="/portdomi">Investment Improvement</a></li>
-  <li><a href="/port_construct">Portfolio Construction</a></li>
-  <li class="right"><a href="#about">Logout</a></li>
-</ul>
-<br>
-<div>
-    <h1>Hello {{ email }}</h1>
-    <h2>Welcome to Black Belt investment robo-advisor!</h2>
-    <h3>Please select one of three functionalities from the horizontal navigation bar or from this table</h3>
-    <table>
-        <tr>
-            <th>Functionality</th>
-            <th>Description</th>
-            <th>Link</th>
-        </tr>
-        <tr>
-            <td>Back testing</td>
-            <td>Get portfolio value based on historical data</td>
-            <td><a href="/backtesting">Back Testing</a></td>
-        </tr>
-        <tr>
-            <td>Investment Improvement</td>
-            <td>Given a portfolio, create a better portfolio</td>
-            <td><a href="/portdomi">Investment Improvement</a></td>
-        </tr>
-        <tr>
-            <td>Portfolio Construction</td>
-            <td>Given a return goal, create a portfolio</td>
-            <td><a href="/port_construct">Portfolio Construction</a></td>
-        </tr>
-    </table>
+    <ul class="topnav">
+        <li><a class="active" href="/home">Home</a></li>
+        <li><a href="/backtesting">Back testing</a></li>
+        <li><a href="/portdomi">Investment Improvement</a></li>
+        <li><a href="/port_construct">Portfolio Construction</a></li>
+        <li class="right"><a href="#about">Logout</a></li>
+    </ul>
+    <br>
+    <div>
+        <h1>Hello {{ email }}</h1>
+        <h2>Welcome to Black Belt investment robo-advisor!</h2>
+        <h3>Please select one of three functionalities from the horizontal navigation bar or from this table</h3>
+        <table>
+            <tr>
+                <th>Functionality</th>
+                <th>Description</th>
+                <th>Link</th>
+            </tr>
+            <tr>
+                <td>Back testing</td>
+                <td>Get portfolio value based on historical data</td>
+                <td><a href="/backtesting">Back Testing</a></td>
+            </tr>
+            <tr>
+                <td>Investment Improvement</td>
+                <td>Given a portfolio, create a better portfolio</td>
+                <td><a href="/portdomi">Investment Improvement</a></td>
+            </tr>
+            <tr>
+                <td>Portfolio Construction</td>
+                <td>Given a return goal, create a portfolio</td>
+                <td><a href="/port_construct">Portfolio Construction</a></td>
+            </tr>
+        </table>
 
-</div>
-<footer>
-    <p class="copyright">© Shoujun Feng, BlackBelt Team 2018</p>
-</footer>
+    </div>
+    <footer>
+        <p class="copyright">© Shoujun Feng, BlackBelt Team 2018</p>
+    </footer>
 </body>
 </html>

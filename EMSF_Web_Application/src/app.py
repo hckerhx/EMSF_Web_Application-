@@ -8,7 +8,7 @@ __author__ = 'jslvtr'
 from flask import Flask, render_template, request, session, make_response, url_for
 
 app = Flask(__name__)  # '__main__'
-app.secret_key = "jose"
+app.secret_key = "hckerhx"
 
 @app.route('/')
 def home_template():
@@ -62,7 +62,14 @@ def register_user():
 
 @app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
+    portfolio_asset = request.form['asset']
+    portfolio_weight = request.form['weight']
+
+    starting_time = request.form['starting_time']
+    ending_time = request.form['ending_time']
+
     if request.method == 'GET':
+
         return render_template('Bbacktesting.html')
     '''
     request.form['assets']
