@@ -40,6 +40,12 @@ def login_user():
 
     return render_template("Pprofile.html", email=session['email'])
 
+@app.route('/home', methods=['GET']) #get(read url from backend)/post(write data files or json to backend)
+def home():
+    #if session != None:
+    return render_template("Pprofile.html", email=session['email']) #if not session/flask check session exists
+    #else:
+
 
 @app.route('/auth/register', methods=['POST'])
 def register_user():
