@@ -2,7 +2,7 @@ import uuid
 from common.database import Database
 import datetime
 
-__author__ = 'jslvtr'
+__author__ = 'hckerhx'
 
 
 class Asset(object):
