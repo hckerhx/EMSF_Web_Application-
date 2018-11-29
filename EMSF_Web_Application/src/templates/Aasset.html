@@ -1,0 +1,17 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>{{ portfolio_title }}</h2>
+    <a href="/asset/new/{{ portfolio_id }}"><button class="btn btn-primary">New post</button></a>
+    {% if posts|length > 0 %}
+    {% for post in posts %}
+    <h3>{{ asset.asset_name }}</h3>
+    <p>{{ asset.asset_weight }}</p>
+    <!--<p>{{ post.author }}</p>-->
+    <hr>
+    {% endfor %}
+    {% else %}
+    <h4>There aren't any posts yet!</h4>
+    {% endif %}
+</div>
+{% endblock %}

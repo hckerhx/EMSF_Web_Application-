@@ -1,7 +1,7 @@
 import uuid
 import datetime
 from common.database import Database
-from models.post import Post
+from models.asset import Asset
 
 __author__ = 'jslvtr'
 
@@ -15,15 +15,15 @@ class Portfolio(object):
         self._id = uuid.uuid4().hex if _id is None else _id
 
     
-    def new_post(self, asset_name, asset_weight):#, date=datetime.datetime.utcnow()):
-        post = Post(portfolio_id=self._id,
+    def new_asset(self, asset_name, asset_weight):#, date=datetime.datetime.utcnow()):
+        asset = Asset(portfolio_id=self._id,
                     asset_name=asset_name,
                     asset_weight=asset_weight)
-        post.save_to_mongo()
+        asset.save_to_mongo()
     
 
-    def get_posts(self):
-        return Post.from_portfolio(self._id)
+    def get_asset(self):
+        return Asset.from_portfolio(self._id)
 
     def save_to_mongo(self):
         Database.insert(collection='portfolio',

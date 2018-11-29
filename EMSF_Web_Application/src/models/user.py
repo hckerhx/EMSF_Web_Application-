@@ -2,7 +2,7 @@ import datetime
 import uuid
 from flask import session
 from common.database import Database
-from models.blog import Blog
+from models.portfolio import Portfolio
 
 __author__ = 'hckerhx'
 
@@ -58,24 +58,23 @@ class User(object):
         session['email'] = None
 
     # get portfolio/return the portfolio that belongs to the user
-    def get_blogs(self):
-        return Blog.find_by_author_id(self._id)
+    def get_portfolio(self):
+        return Portfolio.find_by_author_id(self._id)
 
     # create new blog under the user accounts 
-    def new_blog(self, title, description):
-        blog = Blog(author=self.email,
-                    title=title,
-                    description=description,
+    def new_portfolio(self, starting_time, ending_time):
+        portfolio = Portfolio(author=self.email,
+                    starting_time=starting_time,
+                    ending_time=ending_time,
                     author_id=self._id)
 
-        blog.save_to_mongo()
+        portfolio.save_to_mongo()
 
     @staticmethod
-    def new_post(blog_id, title, content, date=datetime.datetime.utcnow()):
-        blog = Blog.from_mongo(blog_id)
-        blog.new_post(title=title,
-                      content=content,
-                      date=date)
+    def new_asset(portfolio_id, asset_name, asset_weight):#, date=datetime.datetime.utcnow()):
+        portfolio = Portfolio.from_mongo(portfolio_id)
+        portfolio.new_asset(asset_name=asset_name,
+                      asset_weight=asset_weight)
 
     # user account format 
     def json(self):

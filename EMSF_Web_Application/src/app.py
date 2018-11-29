@@ -1,6 +1,6 @@
 from common.database import Database
-from models.blog import Blog
-from models.post import Post
+from models.portfolio import Portfolio
+from models.asset import Asset
 from models.user import User
 
 __author__ = 'jslvtr'
@@ -67,20 +67,20 @@ def user_portfolio():
     if request.method == 'GET':
         return render_template('Bbacktesting.html')
     
-    else:
-        asset_name = request.form['asset']
-        asset_weight = request.form['weight']
-        starting_time = request.form['starting_time']
-        ending_time = request.form['ending_time']
+    #else:
+    #    asset_name = request.form['asset']
+    #    asset_weight = request.form['weight']
+    #    starting_time = request.form['starting_time']
+    #    ending_time = request.form['ending_time']
 
-        asset_entry = asset(asset_name, asset_weight, starting_time, ending_time)
-        asset_entry.save_to_mongo()
+    #    asset_entry = asset(asset_name, asset_weight, starting_time, ending_time)
+    #    asset_entry.save_to_mongo()
 
-        return make_response()
-    request.form['assets']
-    request.form['portfolio weights']
-    request.form['starting date']
-    request.form['ending date']
+    #    return make_response()
+    #request.form['assets']
+    #request.form['portfolio weights']
+    #request.form['starting date']
+    #request.form['ending date']
     
 
 @app.route('/portdomi', methods=['POST', 'GET'])
@@ -104,7 +104,6 @@ def user_portfolio_construct():
     request.form['starting date']
     request.form['ending date']
     '''
-
 
 @app.route('/blogs/<string:user_id>')
 @app.route('/blogs')
@@ -134,27 +133,27 @@ def create_new_blog():
         return make_response(user_blogs(user._id))
 
 
-@app.route('/posts/<string:blog_id>')
-def blog_posts(blog_id):
-    blog = Blog.from_mongo(blog_id)
-    posts = blog.get_posts()
+@app.route('/asset/<string:blog_id>')
+def portfolio_asset(portfolio_id):
+    portfolio = Portfolio.from_mongo(portfolio_id)
+    asset = portfolio.get_asset()
 
-    return render_template('posts.html', posts=posts, blog_title=blog.title, blog_id=blog._id)
+    return render_template('Aasset.html', posts=posts, portfolio_title=portfolio.title, portfolio_id=portfolio._id)
 
 
-@app.route('/posts/new/<string:blog_id>', methods=['POST', 'GET'])
-def create_new_post(blog_id):
+@app.route('/asset/new/<string:portfolio_id>', methods=['POST', 'GET'])
+def create_new_asset(portfolio_id):
     if request.method == 'GET':
-        return render_template('new_post.html', blog_id=blog_id)
+        return render_template('Nnewasset.html', portfolio_id=portfolio_id)
     else:
-        title = request.form['title']
-        content = request.form['content']
+        asset_name = request.form['asset_name']
+        content = request.form['asset_weight']
         user = User.get_by_email(session['email'])
 
-        new_post = Post(blog_id, title, content, user.email)
-        new_post.save_to_mongo()
+        new_asset = Post(portfolio_id, title, content, user.email)
+        new_asset.save_to_mongo()
 
-        return make_response(blog_posts(blog_id))
+        return make_response(portfolio_posts(portfolio_id))
 
 
 if __name__ == '__main__':

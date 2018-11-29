@@ -6,7 +6,6 @@ __author__ = 'jslvtr'
 
 
 class Asset(object):
-
     def __init__(self, portfolio_id, asset_name, asset_weight, _id=None): #created_date=datetime.datetime.utcnow(), 
         self.portfolio_id = portfolio_id
         self.asset_name = asset_name
