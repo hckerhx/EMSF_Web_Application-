@@ -14,6 +14,10 @@ app.secret_key = "hckerhx"
 def home_template():
     return render_template('home.html')
 
+@app.route('/home', methods=['GET']) #get(read url from backend)/post(write data files or json to backend)
+def home():
+    return render_template("Pprofile.html", email=session['email']) #if not session/flask check session exists
+
 @app.route('/login')
 def login_template():
     return render_template('Llogin.html')
@@ -40,12 +44,10 @@ def login_user():
 
     return render_template("Pprofile.html", email=session['email'])
 
-@app.route('/home', methods=['GET']) #get(read url from backend)/post(write data files or json to backend)
-def home():
-    #if session != None:
-    return render_template("Pprofile.html", email=session['email']) #if not session/flask check session exists
-    #else:
-
+@app.route('/logout')
+def logout_user():  # Logs user out
+    session['email'] = None
+    return redirect(url_for('home'))
 
 @app.route('/auth/register', methods=['POST'])
 def register_user():
@@ -62,21 +64,24 @@ def register_user():
 
 @app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
-    portfolio_asset = request.form['asset']
-    portfolio_weight = request.form['weight']
-
-    starting_time = request.form['starting_time']
-    ending_time = request.form['ending_time']
-
     if request.method == 'GET':
-
         return render_template('Bbacktesting.html')
-    '''
+    
+    else:
+        asset_name = request.form['asset']
+        asset_weight = request.form['weight']
+        starting_time = request.form['starting_time']
+        ending_time = request.form['ending_time']
+
+        asset_entry = asset(asset_name, asset_weight, starting_time, ending_time)
+        asset_entry.save_to_mongo()
+
+        return make_response()
     request.form['assets']
     request.form['portfolio weights']
     request.form['starting date']
     request.form['ending date']
-    '''
+    
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():

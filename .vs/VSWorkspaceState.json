@@ -1,12 +1,11 @@
 {
   "ExpandedNodes": [
-    "",
     "\\EMSF_Web_Application",
     "\\EMSF_Web_Application\\src",
+    "\\EMSF_Web_Application\\src\\common",
     "\\EMSF_Web_Application\\src\\models",
-    "\\EMSF_Web_Application\\src\\models\\__pycache__",
-    "\\EMSF_Web_Application\\src\\templates"
+    "\\EMSF_Web_Application\\src\\templates",
+    "\\EMSF_Web_Application\\src\\__pycache__"
   ],
-  "SelectedNode": "\\EMSF_Web_Application\\src\\app.py",
   "PreviewInSolutionExplorer": false
 }
