@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<!--<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,28 +105,44 @@
     </style>
 </head>
 
-<body style="background-color:#333333;">
+<body style="background-color:#333333;">-->
 
-    <ul class="topnav">
-        <li><a href="/home">Home</a></li>
-        <li><a class="active" href="/backtesting">Back testing</a></li>
-        <li><a href="/portdomi">Investment Improvement</a></li>
-        <li><a href="/port_construct">Portfolio Construction</a></li>
-        <li class="right"><a href="#about">Logout</a></li>
-    </ul>
-    <br>
+<ul class="topnav">
+    <li><a href="/home">Home</a></li>
+    <li><a class="active" href="/backtesting">Back testing</a></li>
+    <li><a href="/portdomi">Investment Improvement</a></li>
+    <li><a href="/port_construct">Portfolio Construction</a></li>
+    <li class="right"><a href="#about">Logout</a></li>
+</ul>
+<br>
+<div class="myapp">
     <form action="/backtesting" method="post">
         <h1>Back Testing</h1>
         <p>Given a portfolio and a time horizon, the portfolio value, its return, and volatility are analyzed and presented.</p>
         <h3>Portfolio Specification</h3>
-        <table>
+        <!--<table>
             <tr>
                 <th>Assets</th>
                 <th>Weight</th>
             </tr>
 
         </table>
-        <button class="btn btn-primary"><a href ="/asset/new/{{ portfolio_id }}">new asset</a></button>
+        <button class="btn btn-primary"><a href="/asset">new asset</a></button>-->
+        <div class="container">
+            <div class="row">
+                <input type="hidden" name="count" value="1" />
+                <div class="control-group" id="fields">
+                    <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                    <div class="controls" id="profs">
+                        <form class="input-append">
+                            <div id="field"><input autocomplete="off" class="input" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8" /><button id="b1" class="btn add-more" type="button">+</button></div>
+                        </form>
+                        <br>
+                        <small>Press + to add another form field :)</small>
+                    </div>
+                </div>
+            </div>
+        </div>
         <br><br>
         <h3>Time Horizon</h3>
         <table>
@@ -139,8 +157,11 @@
 
         <br><br>
     </form>
-    <footer>
-        <p class="copyright">© BlackBelt Team 2018</p>
-    </footer>
-</body>
-</html>
+</div>
+<footer>
+    <p class="copyright">© BlackBelt Team 2018</p>
+</footer>
+    
+{% endblock %}
+    <!--</body>
+    </html>-->

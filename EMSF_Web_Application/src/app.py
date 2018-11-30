@@ -3,7 +3,7 @@ from models.portfolio import Portfolio
 from models.asset import Asset
 from models.user import User
 
-__author__ = 'jslvtr'
+__author__ = 'hckerhx'
 
 from flask import Flask, render_template, request, session, make_response, url_for
 
@@ -81,7 +81,6 @@ def user_portfolio():
     #request.form['portfolio weights']
     #request.form['starting date']
     #request.form['ending date']
-    
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
@@ -95,36 +94,39 @@ def user_portfolio_construct():
         return render_template('Pportcons.html')
 
 
-@app.route('/blogs/<string:user_id>')
-@app.route('/blogs')
-def user_blogs(user_id=None):
-    if user_id is not None:
-        user = User.get_by_id(user_id)
-    else:
-        user = User.get_by_email(session['email'])
+#@app.route('/blogs/<string:user_id>')
+#@app.route('/blogs')
+#def user_blogs(user_id=None):
+#    if user_id is not None:
+#        user = User.get_by_id(user_id)
+#    else:
+#        user = User.get_by_email(session['email'])
 
-    blogs = user.get_blogs()
+#    blogs = user.get_blogs()
 
-    return render_template("user_blogs.html", blogs=blogs, email=user.email)
-
-
-@app.route('/blogs/new', methods=['POST', 'GET'])
-def create_new_blog():
-    if request.method == 'GET':
-        return render_template('new_blog.html')
-    else:
-        title = request.form['title']
-        description = request.form['description']
-        user = User.get_by_email(session['email'])
-
-        new_blog = Blog(user.email, title, description, user._id)
-        new_blog.save_to_mongo()
-
-        return make_response(user_blogs(user._id))
+#    return render_template("user_blogs.html", blogs=blogs, email=user.email)
 
 
-@app.route('/asset/<string:blog_id>')
-def portfolio_asset(portfolio_id):
+#@app.route('/blogs/new', methods=['POST', 'GET'])
+#def create_new_blog():
+#    if request.method == 'GET':
+#        return render_template('new_blog.html')
+#    else:
+#        title = request.form['title']
+#        description = request.form['description']
+#        user = User.get_by_email(session['email'])
+
+#        new_blog = Blog(user.email, title, description, user._id)
+#        new_blog.save_to_mongo()
+
+#        return make_response(user_blogs(user._id))
+
+
+@app.route('/asset/<string:portfolio_id>')
+def portfolio_asset(portfolio_id=None):
+    user = User.get_by_email(session['email'])
+
+    portfolio = user.get_portfolio()
     portfolio = Portfolio.from_mongo(portfolio_id)
     asset = portfolio.get_asset()
 

@@ -7,11 +7,41 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
     {% block content %}
 
     {% endblock %}
+    <script>
+        $(document).ready(function () {
+            var next = 1;
+            $(".add-more").click(function (e) {
+                e.preventDefault();
+                var addto = ".field" + next + ':last';
+                var addRemove = addto;
+                next = next + 1;
+                var newAsset = '<input autocomplete="off" class="input form-control field'+next+'"  name="asset' + next + '" type="text">';
+                var newWeight = '<input autocomplete="off" class="input form-control field'+next+'" name="weight' + next + '" type="number">';
+                var assetAndWeight = '<div>' + newAsset + newWeight + '</div>';
+                var newInput = $(assetAndWeight);
+                var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+                var removeButton = $(removeBtn);
+                $(addto).after(newInput);
+                $(addRemove).after(removeButton);
+                $(".field" + next).attr('data-source', $(addto).attr('data-source'));
+                $("#count").val(next);
+
+                $('.remove-me').click(function (e) {
+                    e.preventDefault();
+                    var fieldNum = this.id.charAt(this.id.length - 1);
+                    var fieldID = ".field" + fieldNum;
+                    $(this).remove();
+                    $(fieldID).remove();
+                });
+            });
+        });
+    </script>
 </body>
 </html>
 
