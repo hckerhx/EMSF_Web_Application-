@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\common",
+    "\\src\\models",
+    "\\src\\static",
+    "\\src\\static\\css",
+    "\\src\\templates"
+  ],
+  "SelectedNode": "\\src\\app.py",
+  "PreviewInSolutionExplorer": false
+}

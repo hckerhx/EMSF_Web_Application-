@@ -1,111 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0;
-        }
-
-        div {
-            background-color: lightgrey;
-            width: 80%;
-            border: 25px solid #666666;
-            padding: 25px;
-            margin: auto;
-        }
-
-        ul.topnav {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #131314;
-        }
-
-            ul.topnav li {
-                float: left;
-            }
-
-                ul.topnav li a {
-                    display: block;
-                    color: white;
-                    text-align: center;
-                    padding: 14px 16px;
-                    text-decoration: none;
-                }
-
-                    ul.topnav li a:hover:not(.active) {
-                        background-color: #59595b;
-                    }
-
-                    ul.topnav li a.active {
-                        background-color: #a6a6a6;
-                    }
-
-                ul.topnav li.right {
-                    float: right;
-                }
-
-        @media screen and (max-width: 600px) {
-            ul.topnav li.right,
-            ul.topnav li {
-                float: none;
-            }
-        }
-
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 80%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-
-        footer {
-            position: relative;
-            height: 100px;
-            width: 100%;
-            background-color: #333333;
-        }
-
-        p.copyright {
-            position: absolute;
-            width: 100%;
-            color: #fff;
-            line-height: 40px;
-            font-size: 0.7em;
-            text-align: center;
-            bottom: 0;
-        }
-
-        button {
-            background-color: #666666;
-            text-align: center;
-            display: inline-block;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-
-        .button1 {
-            border-radius: 30%;
-            font-size: 24px;
-            padding: 8px;
-        }
-    </style>
-</head>
-
-<body style="background-color:#333333;">-->
 
 <ul class="topnav">
     <li><a href="/home">Home</a></li>
@@ -121,14 +15,14 @@
         <p>Given a portfolio and a time horizon, the portfolio value, its return, and volatility are analyzed and presented.</p>
         <h3>Portfolio Specification</h3>
         <!--<table>
-            <tr>
-                <th>Assets</th>
-                <th>Weight</th>
-            </tr>
+        <tr>
+            <th>Assets</th>
+            <th>Weight</th>
+        </tr>
 
-        </table>
-        <button class="btn btn-primary"><a href="/asset">new asset</a></button>-->
-        <div class="container">
+    </table>
+    <button class="btn btn-primary"><a href="/asset">new asset</a></button>-->
+        <!--<div class="container">
             <div class="row">
                 <input type="hidden" name="count" value="1" />
                 <div class="control-group" id="fields">
@@ -137,6 +31,26 @@
                         <form class="input-append">
                             <div id="field"><input autocomplete="off" class="input" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8" /><button id="b1" class="btn add-more" type="button">+</button></div>
                         </form>
+                        <br>
+                        <small>Press + to add another form field :)</small>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="container asset-container">
+            <div class="row">
+                <input type="hidden" name="count" value="1" />
+                <div class="control-group" id="fields">
+                    <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                    <div class="controls" id="profs">
+                        <div class="input-append">
+                            <div id="field">
+                                <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" data-items="8" />
+                                <input autocomplete="off" class="input form-control field1" name="weight1" type="number" placeholder="Asset Weight" data-items="8" />
+
+                                <button id="b1" class="btn add-more" type="button">+</button>
+                            </div>
+                        </div>
                         <br>
                         <small>Press + to add another form field :)</small>
                     </div>
