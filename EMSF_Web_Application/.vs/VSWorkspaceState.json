@@ -4,9 +4,7 @@
     "\\src",
     "\\src\\common",
     "\\src\\models",
-    "\\src\\static",
-    "\\src\\static\\css",
-    "\\src\\templates"
+    "\\src\\test"
   ],
   "SelectedNode": "\\src\\app.py",
   "PreviewInSolutionExplorer": false

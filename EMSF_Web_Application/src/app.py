@@ -1,7 +1,14 @@
+#import sys
+#sys.path.insert(0,
+#'C:/Users/hang/source/repos/EMSF_Web_Application-/EMSF_Web_Application/src')
 from common.database import Database
 from models.portfolio import Portfolio
 from models.asset import Asset
 from models.user import User
+import json
+
+from test import *
+from test.main_engine import *
 
 __author__ = 'hckerhx'
 
@@ -17,7 +24,6 @@ def home_template():
 @app.route('/home', methods=['GET']) #get(read url from backend)/post(write data files or json to backend)
 def home():
     return render_template("Pprofile.html", email=session['email']) #if not session/flask check session exists
-
 @app.route('/login')
 def login_template():
     return render_template('Llogin.html')
@@ -38,7 +44,7 @@ def login_user():
     if User.login_valid(email, password):
         User.login(email)
 
-    # if user account does not exist 
+    # if user account does not exist
     else:
         session['email'] = "this account does not exist"
 
@@ -71,24 +77,42 @@ def user_portfolio():
         new_asset['weight'] = {}
 
         for i in range(1,100):
-            if request.form.get('asset'+str(i)) != None:
-                asset = request.form.get('asset'+str(i))
-                weight = request.form.get('weight'+str(i))
+            if request.form.get('asset' + str(i)) != None:
+                asset = request.form.get('asset' + str(i))
+                weight = float(request.form.get('weight' + str(i)))
                 new_asset['weight'][asset] = weight
             else:
                 break
 
-        new_asset['target_return'] = None
-        starting_time = request.form['starting_time']
-        ending_time = request.form['ending_time']
-        new_asset['starting_time'] = starting_time
-        new_asset['ending_time'] = ending_time
+        new_asset['target_return'] = request.form.get('target_return')
+        new_asset['start_date'] = request.form.get('start_date')
+        new_asset['end_date'] = request.form.get('end_date')
+
+        asset_data = None
+        user_input = None
+        id_ticker_mapping = None
+        ticker_id_mapping = None
+        factor_data = None
+
+        with open("test/asset_data.json", "r") as asset_data_in:
+            asset_data = json.load(asset_data_in)
+        with open("test/user_input.json", "r") as user_input_in:
+            user_input = json.load(user_input_in)
+        with open("test/id_ticker_mapping.json", "r") as id_ticker_mapping_in:
+            id_ticker_mapping = json.load(id_ticker_mapping_in)
+        with open("test/ticker_id_mapping.json", "r") as ticker_id_mapping_in:
+            ticker_id_mapping = json.load(ticker_id_mapping_in)
+        with open("test/factor_data.json", "r") as factor_data_in:
+            factor_data = json.load(factor_data_in)
+
+        print("new asset = ", new_asset)
+        result = main_flow(asset_data, "Back-testing", new_asset, id_ticker_mapping, ticker_id_mapping, factor_data)
+        print(result)
 
         Database.insert(collection='portfolio', data=new_asset)
         
     return render_template('Bbacktesting.html')
 
-        
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
@@ -99,18 +123,16 @@ def user_portfolio_domi():
         new_asset['weight'] = {}
 
         for i in range(1,100):
-            if request.form.get('asset'+str(i)) != None:
-                asset = request.form.get('asset'+str(i))
-                weight = request.form.get('weight'+str(i))
+            if request.form.get('asset' + str(i)) != None:
+                asset = request.form.get('asset' + str(i))
+                weight = request.form.get('weight' + str(i))
                 new_asset['weight'][asset] = weight
             else:
                 break
 
-        new_asset['target_return'] = None
-        starting_time = request.form['starting_time']
-        ending_time = request.form['ending_time']
-        new_asset['starting_time'] = starting_time
-        new_asset['ending_time'] = ending_time
+        new_asset['target_return'] = request.form.get('target_return')
+        new_asset['start_date'] = request.form.get('start_date')
+        new_asset['end_date'] = request.form.get('end_date')
 
         Database.insert(collection='portfolio', data=new_asset)
 
@@ -125,8 +147,8 @@ def user_portfolio_construct():
         new_asset['weight'] = {}
 
         new_asset['target_return'] = request.form.get('target_return')
-        new_asset['starting_time'] = request.form.get('starting_time')
-        new_asset['ending_time'] = request.form.get('ending_time')
+        new_asset['start_date'] = request.form.get('start_date')
+        new_asset['end_date'] = request.form.get('end_date')
 
         Database.insert(collection='portfolio', data=new_asset)
         
@@ -161,7 +183,6 @@ def user_portfolio_construct():
 #        new_blog.save_to_mongo()
 
 #        return make_response(user_blogs(user._id))
-
 
 @app.route('/asset/<string:portfolio_id>')
 def portfolio_asset(portfolio_id=None):
