@@ -118,3 +118,69 @@ button {
     font-size: 24px;
     padding: 8px;
 }
+
+/*body {
+    background-color: #333333;
+}
+
+h1 {
+    color: black;
+    font-size: 50px;
+    text-align: center;
+}
+
+p {
+    color: grey;
+    font-size: 18px;
+}
+
+h6 a {
+    color: black;
+    text-decoration: none;
+}
+
+button {
+    background-color: #666666;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 20%;
+    font-size: 15px;
+    padding: 8px;
+    width: 100px
+}
+
+form {
+    background-color: lightgrey;
+    margin: auto;
+    width: 40%;
+    padding: 50px;
+    border: 25px solid #666666;
+    text-align: center;
+}
+
+input {
+    width: 278px;
+    height: 10px;
+    margin-bottom: 10px;
+    outline: none;
+    padding: 10px;
+    font-size: 15px;
+    border-radius: 4px;
+}
+
+footer {
+    position: relative;
+    height: 80px;
+    width: 100%;
+    background-color: #333333;
+}
+
+p.copyright {
+    position: absolute;
+    width: 100%;
+    color: #fff;
+    line-height: 40px;
+    font-size: 0.7em;
+    text-align: center;
+    bottom: 0;
+}*/

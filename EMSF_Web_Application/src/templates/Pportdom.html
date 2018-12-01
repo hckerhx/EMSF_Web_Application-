@@ -1,65 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<!--<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>-->
-
-<!--<body style="background-color:#333333;">-->
 
     <ul class="topnav">
         <li><a href="/home">Home</a></li>
         <li><a href="/backtesting">Back testing</a></li>
         <li><a class="active" href="/portdomi">Investment Improvement</a></li>
         <li><a href="/port_construct">Portfolio Construction</a></li>
-        <li class="right"><a href="#about">Logout</a></li>
+        <li class="right"><a href="/logout">Logout</a></li>
     </ul>
     <br>
     <div class="myapp">
-        <h1>Investment Improvement</h1>
-        <p>Given a portfolio and a time horizon, a better portfolio will be constructed.</p>
-        <h3>Portfolio Specification</h3>
-        <div class="container asset-container">
-            <div class="row">
-                <input type="hidden" name="count" value="1" />
-                <div class="control-group" id="fields">
-                    <label class="control-label" for="field1">Nice Multiple Form Fields</label>
-                    <div class="controls" id="profs">
-                        <div class="input-append">
-                            <div id="field">
-                                <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" data-items="8" />
-                                <input autocomplete="off" class="input form-control field1" name="weight1" type="number" placeholder="Asset Weight" data-items="8" />
+        <form action="/portdomi" method="post">
+            <h1>Investment Improvement</h1>
+            <p>Given a portfolio and a time horizon, a better portfolio will be constructed.</p>
+            <h3>Portfolio Specification</h3>
+            <div class="container asset-container">
+                <div class="row">
+                    <input type="hidden" name="count" value="1" />
+                    <div class="control-group" id="fields">
+                        <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                        <div class="controls" id="profs">
+                            <div class="input-append">
+                                <div id="field">
+                                    <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" data-items="8" />
+                                    <input autocomplete="off" class="input form-control field1" name="weight1" type="number" placeholder="Asset Weight" data-items="8" />
 
-                                <button id="b1" class="btn add-more" type="button">+</button>
+                                    <button id="b1" class="btn add-more" type="button">+</button>
+                                </div>
                             </div>
+                            <br>
+                            <small>Press + to add another form field :)</small>
                         </div>
-                        <br>
-                        <small>Press + to add another form field :)</small>
                     </div>
                 </div>
             </div>
-        </div>
-        <table>
+            <!--<table>
             <tr>
                 <th>Assets</th>
                 <th>Weight</th>
             </tr>
             <tr>
                 <td><input type="text" placeholder="Ticker Name/Capital Letter"></td>
-                <!--
-                <td>
-                    <select>
-                        <option value="SP500">SP500</option>
-                        <option value="AAPL">AAPL</option>
-                        <option value="JPM">JPM</option>
-                        <option value="XOM">XOM</option>
-                    </select>
-                </td>-->
-                <td><input type="text" value="10%"></td>
-            </tr>
-            <tr>
-                <td><input type="text" placeholder="Ticker Name/Capital Letter"></td>
-                <!--
+
                 <td>
                     <select>
                         <option value="SP500">SP500</option>
@@ -68,30 +50,43 @@
                         <option value="XOM">XOM</option>
                     </select>
                 </td>
-                    -->
+                <td><input type="text" value="10%"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="Ticker Name/Capital Letter"></td>
+
+                <td>
+                    <select>
+                        <option value="SP500">SP500</option>
+                        <option value="AAPL">AAPL</option>
+                        <option value="JPM">JPM</option>
+                        <option value="XOM">XOM</option>
+                    </select>
+                </td>
+
                 <td><input type="text" value="10%"></td>
             </tr>
         </table>
+        <button type="button" onclick="alert('You are going to add more assets!')">Add assets</button>-->
 
-        <button type="button" onclick="alert('You are going to add more assets!')">Add assets</button>
-        <br><br>
-        <h3>Time Horizon</h3>
-        <table>
-            <tr>
-                <td>From <input type="text"> YYYY/MM/DD</td>
-                <td>To <input type="text"> YYYY/MM/DD</td>
-            </tr>
-        </table>
-        <br><br>
 
-        <button class="button button1" onclick="alert('Are you sure you want to submit?')" style="float: right;">Submit</button>
+            <br><br>
+            <h3>Time Horizon</h3>
+            <table>
+                <tr>
+                    <td>From <input type="text" name="starting_time"> YYYY/MM/DD</td>
+                    <td>To <input type="text" name="ending_time"> YYYY/MM/DD</td>
+                </tr>
+            </table>
+            <br><br>
 
-        <br><br>
+            <button class="submit">Submit</button>
+
+            <br><br>
+        </form>
     </div>
     <footer>
-        <p class="copyright">© Shoujun Feng, BlackBelt Team 2018</p>
+        <p class="copyright">© BlackBelt Team 2018</p>
     </footer>
 
-<!--</body>
-</html>-->
 {% endblock %}

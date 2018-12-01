@@ -5,7 +5,7 @@ from models.user import User
 
 __author__ = 'hckerhx'
 
-from flask import Flask, render_template, request, session, make_response, url_for
+from flask import Flask, render_template, request, session, make_response, url_for, redirect
 
 app = Flask(__name__)  # '__main__'
 app.secret_key = "hckerhx"
@@ -47,7 +47,8 @@ def login_user():
 @app.route('/logout')
 def logout_user():  # Logs user out
     session['email'] = None
-    return redirect(url_for('home'))
+    #print(url_for('login'))
+    return redirect(url_for('login_template'))
 
 @app.route('/auth/register', methods=['POST'])
 def register_user():
@@ -56,7 +57,7 @@ def register_user():
     conf_password = request.form['conf_password'] 
     
     if password == conf_password:
-        User.register(email, password)
+        User.register(email, hash(password))
     else:
         return render_template("Rregister.html", email=email, password=password,conf_password=conf_password)
 
@@ -64,34 +65,74 @@ def register_user():
 
 @app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
-    if request.method == 'GET':
-        return render_template('Bbacktesting.html')
-    
-    #else:
-    #    asset_name = request.form['asset']
-    #    asset_weight = request.form['weight']
-    #    starting_time = request.form['starting_time']
-    #    ending_time = request.form['ending_time']
+    if request.method == 'POST':
+        new_asset = {}
+        new_asset['user_email'] = session['email']
+        new_asset['weight'] = {}
 
-    #    asset_entry = asset(asset_name, asset_weight, starting_time, ending_time)
-    #    asset_entry.save_to_mongo()
+        for i in range(1,100):
+            if request.form.get('asset'+str(i)) != None:
+                asset = request.form.get('asset'+str(i))
+                weight = request.form.get('weight'+str(i))
+                new_asset['weight'][asset] = weight
+            else:
+                break
 
-    #    return make_response()
-    #request.form['assets']
-    #request.form['portfolio weights']
-    #request.form['starting date']
-    #request.form['ending date']
+        new_asset['target_return'] = None
+        starting_time = request.form['starting_time']
+        ending_time = request.form['ending_time']
+        new_asset['starting_time'] = starting_time
+        new_asset['ending_time'] = ending_time
+
+        Database.insert(collection='portfolio', data=new_asset)
+        
+    return render_template('Bbacktesting.html')
+
+        
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
-    if request.method == 'GET':
-        return render_template('Pportdom.html')
+    
+    if request.method == 'POST':
+        new_asset = {}
+        new_asset['user_email'] = session['email']
+        new_asset['weight'] = {}
+
+        for i in range(1,100):
+            if request.form.get('asset'+str(i)) != None:
+                asset = request.form.get('asset'+str(i))
+                weight = request.form.get('weight'+str(i))
+                new_asset['weight'][asset] = weight
+            else:
+                break
+
+        new_asset['target_return'] = None
+        starting_time = request.form['starting_time']
+        ending_time = request.form['ending_time']
+        new_asset['starting_time'] = starting_time
+        new_asset['ending_time'] = ending_time
+
+        Database.insert(collection='portfolio', data=new_asset)
+
+    return render_template('Pportdom.html')
 
 
 @app.route('/port_construct', methods=['POST', 'GET'])
 def user_portfolio_construct():
-    if request.method == 'GET':
-        return render_template('Pportcons.html')
+    if request.method == 'POST':
+        new_asset = {}
+        new_asset['user_email'] = session['email']
+        new_asset['weight'] = {}
+
+        new_asset['target_return'] = request.form.get('target_return')
+        new_asset['starting_time'] = request.form.get('starting_time')
+        new_asset['ending_time'] = request.form.get('ending_time')
+
+        Database.insert(collection='portfolio', data=new_asset)
+        
+    return render_template('Pportcons.html')
+    #if request.method == 'GET':
+    #    return render_template('Pportcons.html')
 
 
 #@app.route('/blogs/<string:user_id>')

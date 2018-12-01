@@ -31,11 +31,11 @@ class Portfolio(object):
 
     def json(self):
         return {
+            '_id': self._id,
             'asset_name': self.asset_name,
             'asset_weight': self.asset_weight,
             'starting_time': self.starting_time,
-            'ending_time': self.ending_time,
-            '_id': self._id
+            'ending_time': self.ending_time
         }
 
     @classmethod
