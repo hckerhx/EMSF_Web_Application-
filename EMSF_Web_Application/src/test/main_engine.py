@@ -76,6 +76,9 @@ def main_flow(asset_data, function, user_input, id_ticker_mapping, ticker_id_map
 				end_date: yyyy-mm-dd
 			}
 	'''
+    if not validate_user_input(user_input, ticker_id_mapping):
+        return False
+
 	if function == "Back-testing":
 		if not ("start_date" in user_input and "end_date" in user_input and "weight" in user_input):
 			print("not sufficient information provided in the user input")
@@ -89,6 +92,17 @@ def main_flow(asset_data, function, user_input, id_ticker_mapping, ticker_id_map
 	if function == "Portfolio-Construction":
 		return port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
 
+
+def validate_user_input(user_input, ticker_id_mapping):
+	if "weight" in user_input:
+		su = 0
+		for ticker in user_input["weight"]:
+			if ticker not in ticker_id_mapping and ticker != "SP500" and ticker != "DJIA":
+				return False
+			su += user_input["weight"][ticker]
+		if abs(su - 1) > 0.01:
+			return False
+	return True
 
 def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping):
 	'''
@@ -144,8 +158,9 @@ def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_
 	if not os.path.exists("img"):
 		os.mkdir("img")
 	plot_and_save(dates, [SP500_values, portfolio_values], ["SP500_values", "portfolio_values"], "img/back_res.png")
-	return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats}
-
+	#return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats}
+	return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats, \
+				"objective": "b"}
 
 def find_next_available_date_index(asset_data, target_date, asset_name, increment):
 	'''
@@ -229,7 +244,8 @@ def port_domi_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 	return {	"original_value": {"portfolio_values": user_port_res_whole["portfolio_values"], \
 									"stats": user_port_res_whole["stats"]}, \
 				"dominant": {"portfolio_values": portfolio_values, "stats": stats}, \
-				"dates": user_port_res_whole["dates"]}
+				#"dates": user_port_res_whole["dates"]}
+                "dates": user_port_res_whole["dates"], "objective": "d"}
 
 
 def prepare_factor_matrix(factor_data, start_date_i, end_date_i, dates):
@@ -304,9 +320,11 @@ def port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 											mvo_port_back_test_res["portfolio_values"]], \
 						["CVaR", "MVO"], "img/port_c_res.png")
 	if cvar_port_back_test_res["stats"]["sharpe"] > mvo_port_back_test_res["stats"]["sharpe"]:
-		return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR"}
+		#return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR"}
+		return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR", "objective": "c"}
 	else:
-		return {"port": mvo_port, "back_test": mvo_port_back_test_res, "taken": "MVO"}
+		#return {"port": mvo_port, "back_test": mvo_port_back_test_res, "taken": "MVO"}
+		return {"port": mvo_port, "back_test": mvo_port_back_test_res, "taken": "MVO", "objective": "c"}
 
 
 def plot_and_save(dates, arr_of_data, legends, filename):

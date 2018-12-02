@@ -3,7 +3,10 @@
     "",
     "\\src",
     "\\src\\common",
+    "\\src\\img",
     "\\src\\models",
+    "\\src\\static",
+    "\\src\\templates",
     "\\src\\test"
   ],
   "SelectedNode": "\\src\\app.py",
