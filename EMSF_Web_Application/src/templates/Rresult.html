@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block content %}
+<div class="myapp">
+    <img src="{{ url_for('static', filename='img/back_res.png') }}" alt="stock trend" style="width:900px;height:500px;">
+
+    <table>
+        <tr>
+            The portfolio return is {{ p_return }}
+        </tr>
+        <tr>
+            The portfolio sharpe ratio is {{ p_sharpe }}
+        </tr>
+    </table>
+    <br><br>
+
+    <button class="submit"><a href="/backtesting">Go Back</a></button>
+
+    <br><br>
+</div>
+<footer>
+    <p class="copyright">© BlackBelt Team 2018</p>
+</footer>
+{% endblock %}

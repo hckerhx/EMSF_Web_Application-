@@ -69,6 +69,18 @@ def register_user():
 
     return render_template("Pprofile.html", email=session['email'])
 
+@app.route('/result', methods=['POST', 'GET'])
+def user_result():
+    u_result = Database.find_one(collection='backtesting',
+                                      query={'user_email': session['email']})
+
+    p_return = u_result['stats']['total_return']
+    p_sharpe = u_result['stats']['sharpe']
+
+    #display profit and sharpe ratio on the website 
+
+    return render_template("Rresult.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
+
 @app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
     if request.method == 'POST':
@@ -76,7 +88,7 @@ def user_portfolio():
         new_asset['user_email'] = session['email']
         new_asset['weight'] = {}
 
-        for i in range(1,100):
+        for i in range(1,501):
             if request.form.get('asset' + str(i)) != None:
                 asset = request.form.get('asset' + str(i))
                 weight = float(request.form.get('weight' + str(i)))
@@ -105,11 +117,11 @@ def user_portfolio():
         with open("test/factor_data.json", "r") as factor_data_in:
             factor_data = json.load(factor_data_in)
 
-        print("new asset = ", new_asset)
         result = main_flow(asset_data, "Back-testing", new_asset, id_ticker_mapping, ticker_id_mapping, factor_data)
-        print(result)
-
+        result['user_email'] = session['email']
+        
         Database.insert(collection='portfolio', data=new_asset)
+        Database.insert(collection='backtesting', data=result)
         
     return render_template('Bbacktesting.html')
 

@@ -22,8 +22,8 @@
                     <div class="controls" id="profs">
                         <div class="input-append">
                             <div id="field">
-                                <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" data-items="8" />
-                                <input autocomplete="off" class="input form-control field1" name="weight1" type="number" step="0.01" placeholder="Asset Weight" data-items="8" />
+                                <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" />
+                                <input autocomplete="off" class="input form-control field1" name="weight1" type="number" min="0" step="any" placeholder="Asset Weight" />
 
                                 <button id="b1" class="btn add-more" type="button">+</button>
                             </div>
@@ -45,6 +45,10 @@
         <br><br>
 
         <button class="submit">Submit</button>
+
+        <br><br>
+
+        <a href="/result">Check Result</a>
 
         <br><br>
     </form>

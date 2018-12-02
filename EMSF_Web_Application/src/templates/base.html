@@ -22,7 +22,7 @@
                 var addRemove = addto;
                 next = next + 1;
                 var newAsset = '<input autocomplete="off" class="input form-control field'+next+'"  name="asset' + next + '" type="text">';
-                var newWeight = '<input autocomplete="off" class="input form-control field'+next+'" name="weight' + next + '" type="number">';
+                var newWeight = '<input autocomplete="off" class="input form-control field'+next+'" name="weight' + next + '" type="number" step="any">';
                 var assetAndWeight = '<div>' + newAsset + newWeight + '</div>';
                 var newInput = $(assetAndWeight);
                 var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
