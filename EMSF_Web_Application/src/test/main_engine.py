@@ -4,6 +4,7 @@
 	Description: This is in charge of the main flow of the investment machine,
 				 from reading data to calling each investment strategy to presenting result.
 '''
+
 import sys
 sys.path.insert(0, 'C:/Users/hang/source/repos/EMSF_Web_Application-/EMSF_Web_Application/src/test')
 
@@ -50,12 +51,12 @@ def main():
 		ticker_id_mapping = json.load(ticker_id_mapping_in)
 	with open(args.factor_data, "r") as factor_data_in:
 		factor_data = json.load(factor_data_in)
-	#results1 = main_flow(asset_data, "Back-testing", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
-	#results2 = main_flow(asset_data, "Portfolio-domi", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
+	# results1 = main_flow(asset_data, "Back-testing", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
+	# results2 = main_flow(asset_data, "Portfolio-domi", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
 	#with open("test_domi_result.json", "w") as results2_out:
 	#	json.dump(results2, results2_out, sort_keys = True, indent = 4)
 	# import pdb; pdb.set_trace()
-	#results3 = main_flow(asset_data, "Portfolio-Construction", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
+	# results3 = main_flow(asset_data, "Portfolio-Construction", user_input, id_ticker_mapping, ticker_id_mapping, factor_data)
 	# with open("compound_test_user_input.json", "w") as compound_test_user_input_out:
 		# json.dump(results3["port"], compound_test_user_input_out, sort_keys = True, indent = 4)
 	# results4 = main_flow(asset_data, "Back-testing", results3["port"], id_ticker_mapping, ticker_id_mapping, factor_data)
@@ -76,14 +77,13 @@ def main_flow(asset_data, function, user_input, id_ticker_mapping, ticker_id_map
 				end_date: yyyy-mm-dd
 			}
 	'''
-    if not validate_user_input(user_input, ticker_id_mapping):
-        return False
-
+	if not validate_user_input(user_input, ticker_id_mapping):
+		return False
 	if function == "Back-testing":
 		if not ("start_date" in user_input and "end_date" in user_input and "weight" in user_input):
 			print("not sufficient information provided in the user input")
 			return False
-		return back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping)
+		return back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping, True)
 	if function == "Portfolio-domi":
 		if not ("start_date" in user_input and "end_date" in user_input and "weight" in user_input):
 			print("not sufficient information provided in the user input")
@@ -104,7 +104,8 @@ def validate_user_input(user_input, ticker_id_mapping):
 			return False
 	return True
 
-def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping):
+
+def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping, plot):
 	'''
 		Input: 
 			asset_data: the variable holding all the information about the assets
@@ -141,7 +142,7 @@ def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_
 				date_index = asset_data[asset_name]["dates"].index(date)
 				if asset_name not in shares:
 					shares[asset_name] = user_input["weight"][ticker] * INITIAL_PORFOLIO_VALUE \
-								/asset_data[asset_name]["price_his"][date_index]
+								/ asset_data[asset_name]["price_his"][date_index]
 				cur_value[asset_name] = shares[asset_name] * \
 									asset_data[asset_name]["price_his"][date_index]
 		new_port_value = 0
@@ -155,12 +156,14 @@ def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_
 	stats["mean_return"] = numpy.mean(cur_returns)
 	stats["volitility"] = numpy.std(cur_returns) / (len(cur_returns) ** 0.5)
 	stats["sharpe"] = stats["mean_return"] / stats["volitility"]
-	if not os.path.exists("img"):
-		os.mkdir("img")
-	plot_and_save(dates, [SP500_values, portfolio_values], ["SP500_values", "portfolio_values"], "img/back_res.png")
-	#return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats}
+	if plot:
+		if not os.path.exists("img"):
+			os.mkdir("img")
+		plot_and_save(dates, [SP500_values, portfolio_values], \
+					["SP500_values", "portfolio_values"], "img/back_res.png")
 	return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats, \
 				"objective": "b"}
+
 
 def find_next_available_date_index(asset_data, target_date, asset_name, increment):
 	'''
@@ -187,7 +190,7 @@ def port_domi_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 	original_user_input = copy.deepcopy(user_input)
 	if user_input["start_date"] < "2004-01-31": user_input["start_date"] = "2004-01-31"
 	if user_input["end_date"] > "2018-10-31": user_input["end_date"] = "2018-10-31"
-	user_port_res_whole = back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping)
+	user_port_res_whole = back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping, False)
 	feasible_start_date_index = find_next_available_date_index(asset_data, user_input["start_date"], "SP500", +1)
 	feasible_end_date_index = find_next_available_date_index(asset_data, user_input["end_date"], "SP500", -1)
 	dates = asset_data["SP500"]["dates"][feasible_start_date_index: feasible_end_date_index + 1]
@@ -200,7 +203,7 @@ def port_domi_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 		date = dates[i]
 		user_input["start_date"] = dates[i - LOOK_BACK_L]  # Look back 4 years each time
 		user_input["end_date"] = date
-		user_port_res = back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping)
+		user_port_res = back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_mapping, False)
 		factor_matrix = prepare_factor_matrix(factor_data, i - LOOK_BACK_L, i, dates)
 		assets_included, asset_return_matrix = prepare_asset_return_matrix(asset_data, \
 												user_input["start_date"], user_input["end_date"], dates)
@@ -244,8 +247,7 @@ def port_domi_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 	return {	"original_value": {"portfolio_values": user_port_res_whole["portfolio_values"], \
 									"stats": user_port_res_whole["stats"]}, \
 				"dominant": {"portfolio_values": portfolio_values, "stats": stats}, \
-				#"dates": user_port_res_whole["dates"]}
-                "dates": user_port_res_whole["dates"], "objective": "d"}
+				"dates": user_port_res_whole["dates"], "objective": "d"}
 
 
 def prepare_factor_matrix(factor_data, start_date_i, end_date_i, dates):
@@ -261,9 +263,14 @@ def prepare_asset_return_matrix(asset_data, start_date, end_date, dates):
 	asset_return_matrix = []
 	for asset_name in asset_data.keys():
 		if start_date in asset_data[asset_name]["dates"] and end_date in asset_data[asset_name]["dates"]:
+			if len(asset_data[asset_name]["ret_his"]\
+									[asset_data[asset_name]["dates"].index(start_date) + 1: \
+									 asset_data[asset_name]["dates"].index(end_date) + 1]) != LOOK_BACK_L:
+				continue
 			asset_return_matrix.append(asset_data[asset_name]["ret_his"]\
 									[asset_data[asset_name]["dates"].index(start_date) + 1: \
 									 asset_data[asset_name]["dates"].index(end_date) + 1])
+			# import pdb; pdb.set_trace()
 			assets_included.append(asset_name)
 	return assets_included, matrix_helper.transpose(asset_return_matrix)
 
@@ -294,7 +301,7 @@ def port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 		else:
 			mvo_port["weight"][assets_included[i]] = mvo_weight[i]
 	mvo_port_back_test_res = back_testing_procedure(asset_data, mvo_port, \
-														id_ticker_mapping, ticker_id_mapping)
+														id_ticker_mapping, ticker_id_mapping, False)
 	cur_price = []
 	for i in range(len(assets_included)):
 		try:
@@ -312,7 +319,7 @@ def port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 		else:
 			cvar_port["weight"][assets_included[i]] = cvar_weight[i]
 	cvar_port_back_test_res = back_testing_procedure(asset_data, cvar_port, \
-														id_ticker_mapping, ticker_id_mapping)
+														id_ticker_mapping, ticker_id_mapping, False)
 	# import pdb; pdb.set_trace()
 	if not os.path.exists("img"):
 		os.mkdir("img")
@@ -320,10 +327,8 @@ def port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 											mvo_port_back_test_res["portfolio_values"]], \
 						["CVaR", "MVO"], "img/port_c_res.png")
 	if cvar_port_back_test_res["stats"]["sharpe"] > mvo_port_back_test_res["stats"]["sharpe"]:
-		#return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR"}
 		return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR", "objective": "c"}
 	else:
-		#return {"port": mvo_port, "back_test": mvo_port_back_test_res, "taken": "MVO"}
 		return {"port": mvo_port, "back_test": mvo_port_back_test_res, "taken": "MVO", "objective": "c"}
 
 
@@ -351,3 +356,6 @@ def plot_and_save(dates, arr_of_data, legends, filename):
 if __name__ == '__main__':
 	main()
 	# plot_and_save([1,2,3,4,5,6,7,8,9,10,11,12,13], [[1,2,3,4,5,6,7,8,9,10,11,12,13], [1,2,3,4,5,6,7,8,9,10,11,12,13]], "")
+	# print(validate_user_input({"weight":{"AAPL": 0.5, "SP500": 0.5}}, {"AAPL": 1}))
+	# print(validate_user_input({"weight":{"AAPL": 0.5, "SP500": 0.512}}, {"AAPL": 1}))
+	# print(validate_user_input({"weight":{"APL": 0.5, "SP500": 0.512}}, {"AAPL": 1}))

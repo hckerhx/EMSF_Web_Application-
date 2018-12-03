@@ -1,6 +1,14 @@
 #import sys
 #sys.path.insert(0,
 #'C:/Users/hang/source/repos/EMSF_Web_Application-/EMSF_Web_Application/src')
+
+
+#to do 
+#insert png picture into the correct folder 
+#search about store mongoDB keys with dot 
+#retrieve the correct form of data/right ordering of from mongoDB
+#clean up documents
+
 from common.database import Database
 from models.portfolio import Portfolio
 from models.asset import Asset
@@ -24,6 +32,7 @@ def home_template():
 @app.route('/home', methods=['GET']) #get(read url from backend)/post(write data files or json to backend)
 def home():
     return render_template("Pprofile.html", email=session['email']) #if not session/flask check session exists
+
 @app.route('/login')
 def login_template():
     return render_template('Llogin.html')
@@ -63,23 +72,23 @@ def register_user():
     conf_password = request.form['conf_password'] 
     
     if password == conf_password:
-        User.register(email, hash(password))
+        User.register(email, password)
     else:
         return render_template("Rregister.html", email=email, password=password,conf_password=conf_password)
 
     return render_template("Pprofile.html", email=session['email'])
 
-@app.route('/result', methods=['POST', 'GET'])
-def user_result():
-    u_result = Database.find_one(collection='backtesting',
-                                      query={'user_email': session['email']})
+@app.route('/bresult', methods=['POST', 'GET'])
+def user_bresult():
+    u_result = Database.find_one(collection='result',
+                                      query={'user_email': session['email'], 'objective': 'b'})
 
     p_return = u_result['stats']['total_return']
     p_sharpe = u_result['stats']['sharpe']
 
     #display profit and sharpe ratio on the website 
 
-    return render_template("Rresult.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
+    return render_template("Rresultb.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
 
 @app.route('/backtesting', methods=['POST', 'GET'])
 def user_portfolio():
@@ -121,10 +130,22 @@ def user_portfolio():
         result['user_email'] = session['email']
         
         Database.insert(collection='portfolio', data=new_asset)
-        Database.insert(collection='backtesting', data=result)
+        Database.insert(collection='result', data=result)
         
     return render_template('Bbacktesting.html')
 
+
+@app.route('/dresult', methods=['POST', 'GET'])
+def user_dresult():
+    u_result = Database.find_one(collection='result',
+                                      query={'user_email': session['email'], 'objective': 'd'})
+    print('u_test =', u_result)
+    p_return = u_result['original_value']['stats']['total_return']
+    p_sharpe = u_result['original_value']['stats']['sharpe']
+
+    #display profit and sharpe ratio on the website 
+
+    return render_template("Rresultd.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
@@ -134,36 +155,95 @@ def user_portfolio_domi():
         new_asset['user_email'] = session['email']
         new_asset['weight'] = {}
 
-        for i in range(1,100):
+        for i in range(1,501):
             if request.form.get('asset' + str(i)) != None:
                 asset = request.form.get('asset' + str(i))
-                weight = request.form.get('weight' + str(i))
+                weight = float(request.form.get('weight' + str(i)))
                 new_asset['weight'][asset] = weight
             else:
                 break
 
-        new_asset['target_return'] = request.form.get('target_return')
+        #new_asset['target_return'] = request.form.get('target_return')
         new_asset['start_date'] = request.form.get('start_date')
         new_asset['end_date'] = request.form.get('end_date')
 
+        asset_data = None
+        user_input = None
+        id_ticker_mapping = None
+        ticker_id_mapping = None
+        factor_data = None
+
+        with open("test/asset_data.json", "r") as asset_data_in:
+            asset_data = json.load(asset_data_in)
+        with open("test/user_input.json", "r") as user_input_in:
+            user_input = json.load(user_input_in)
+        with open("test/id_ticker_mapping.json", "r") as id_ticker_mapping_in:
+            id_ticker_mapping = json.load(id_ticker_mapping_in)
+        with open("test/ticker_id_mapping.json", "r") as ticker_id_mapping_in:
+            ticker_id_mapping = json.load(ticker_id_mapping_in)
+        with open("test/factor_data.json", "r") as factor_data_in:
+            factor_data = json.load(factor_data_in)
+
+        print(new_asset)
+        result = main_flow(asset_data, "Portfolio-domi", new_asset, id_ticker_mapping, ticker_id_mapping, factor_data)
+        result['user_email'] = session['email']
+        print(result)
+        
         Database.insert(collection='portfolio', data=new_asset)
+        Database.insert(collection='result', data=result)
 
     return render_template('Pportdom.html')
 
+@app.route('/cresult', methods=['POST', 'GET'])
+def user_cresult():
+    u_result = Database.find_one(collection='result',
+                                      query={'user_email': session['email'], 'objective': 'c'})
+
+    p_return = u_result['stats']['total_return']
+    p_sharpe = u_result['stats']['sharpe']
+
+    #display profit and sharpe ratio on the website 
+
+    return render_template("Rresultc.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
 
 @app.route('/port_construct', methods=['POST', 'GET'])
 def user_portfolio_construct():
     if request.method == 'POST':
         new_asset = {}
         new_asset['user_email'] = session['email']
-        new_asset['weight'] = {}
+        #new_asset['weight'] = {}
 
-        new_asset['target_return'] = request.form.get('target_return')
-        new_asset['start_date'] = request.form.get('start_date')
-        new_asset['end_date'] = request.form.get('end_date')
+        new_asset['target_return'] = float(request.form.get('target_return'))
+        #new_asset['start_date'] = request.form.get('start_date')
+        #new_asset['end_date'] = request.form.get('end_date')
 
-        Database.insert(collection='portfolio', data=new_asset)
+        #new_asset['investment_length'] = int(request.form.get('investment_length'))
+
+        asset_data = None
+        user_input = None
+        id_ticker_mapping = None
+        ticker_id_mapping = None
+        factor_data = None
+
+        with open("test/asset_data.json", "r") as asset_data_in:
+            asset_data = json.load(asset_data_in)
+        with open("test/user_input.json", "r") as user_input_in:
+            user_input = json.load(user_input_in)
+        with open("test/id_ticker_mapping.json", "r") as id_ticker_mapping_in:
+            id_ticker_mapping = json.load(id_ticker_mapping_in)
+        with open("test/ticker_id_mapping.json", "r") as ticker_id_mapping_in:
+            ticker_id_mapping = json.load(ticker_id_mapping_in)
+        with open("test/factor_data.json", "r") as factor_data_in:
+            factor_data = json.load(factor_data_in)
+
+        print('new asset =', new_asset)
+        result = main_flow(asset_data, "Portfolio-Construction", new_asset, id_ticker_mapping, ticker_id_mapping, factor_data)
+        print('result = ', result)
+        result['user_email'] = session['email']
         
+        Database.insert(collection='portfolio', data=new_asset)
+        Database.insert(collection='result', data=result)
+
     return render_template('Pportcons.html')
     #if request.method == 'GET':
     #    return render_template('Pportcons.html')

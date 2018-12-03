@@ -18,12 +18,12 @@
                 <div class="row">
                     <input type="hidden" name="count" value="1" />
                     <div class="control-group" id="fields">
-                        <label class="control-label" for="field1">Nice Multiple Form Fields</label>
+                        <label class="control-label" for="field1">Portfolio Data</label>
                         <div class="controls" id="profs">
                             <div class="input-append">
                                 <div id="field">
                                     <input autocomplete="off" class="input form-control field1" name="asset1" type="text" placeholder="Asset Name" data-items="8" />
-                                    <input autocomplete="off" class="input form-control field1" name="weight1" type="number" placeholder="Asset Weight" data-items="8" />
+                                    <input autocomplete="off" class="input form-control field1" name="weight1" type="number" step="any" placeholder="Asset Weight" data-items="8" />
 
                                     <button id="b1" class="btn add-more" type="button">+</button>
                                 </div>
@@ -34,40 +34,6 @@
                     </div>
                 </div>
             </div>
-            <!--<table>
-            <tr>
-                <th>Assets</th>
-                <th>Weight</th>
-            </tr>
-            <tr>
-                <td><input type="text" placeholder="Ticker Name/Capital Letter"></td>
-
-                <td>
-                    <select>
-                        <option value="SP500">SP500</option>
-                        <option value="AAPL">AAPL</option>
-                        <option value="JPM">JPM</option>
-                        <option value="XOM">XOM</option>
-                    </select>
-                </td>
-                <td><input type="text" value="10%"></td>
-            </tr>
-            <tr>
-                <td><input type="text" placeholder="Ticker Name/Capital Letter"></td>
-
-                <td>
-                    <select>
-                        <option value="SP500">SP500</option>
-                        <option value="AAPL">AAPL</option>
-                        <option value="JPM">JPM</option>
-                        <option value="XOM">XOM</option>
-                    </select>
-                </td>
-
-                <td><input type="text" value="10%"></td>
-            </tr>
-        </table>
-        <button type="button" onclick="alert('You are going to add more assets!')">Add assets</button>-->
 
             <br><br>
             <h3>Time Horizon</h3>
@@ -80,6 +46,10 @@
             <br><br>
 
             <button class="submit">Submit</button>
+
+            <br><br>
+
+            <a href="/dresult">Check Result</a>
 
             <br><br>
         </form>
