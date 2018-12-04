@@ -23,8 +23,8 @@ import matrix_helper
 
 
 INITIAL_PORFOLIO_VALUE = 1000 # This value in general doesn't matter, just for practical purposes
-ORIGINAL_CONSTANT = 0.5 # The extent to which to keep the original portfolio
-AMPLIFY_FACTOR = 1.5
+ORIGINAL_CONSTANT = 0.7 # The extent to which to keep the original portfolio
+AMPLIFY_FACTOR = 3
 LOOK_BACK_L = 48
 MAX_LOOK_BACK_L = 2 * LOOK_BACK_L
 NUM_DATES_SHOWN = 6
@@ -157,10 +157,11 @@ def back_testing_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_
 	stats["volitility"] = numpy.std(cur_returns) / (len(cur_returns) ** 0.5)
 	stats["sharpe"] = stats["mean_return"] / stats["volitility"]
 	if plot:
-		if not os.path.exists("img"):
-			os.mkdir("img")
+		if not os.path.exists("static/img"):
+			os.mkdir("static/img")
+		os.system("rm static\\img\\domi_res.png")
 		plot_and_save(dates, [SP500_values, portfolio_values], \
-					["SP500_values", "portfolio_values"], "img/back_res.png")
+					["SP500_values", "portfolio_values"], "static/img/back_res.png")
 	return {"portfolio_values": portfolio_values, "SP500_values": SP500_values, "dates": dates, "stats": stats, \
 				"objective": "b"}
 
@@ -240,10 +241,11 @@ def port_domi_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 	stats["mean_return"] = numpy.mean(cur_returns)
 	stats["volitility"] = numpy.std(cur_returns) / (len(cur_returns) ** 0.5)
 	stats["sharpe"] = stats["mean_return"] / stats["volitility"]
-	if not os.path.exists("img"):
-		os.mkdir("img")
+	if not os.path.exists("static/img"):
+		os.mkdir("static/img")
+	os.system("rm static\\img\\domi_res.png")
 	plot_and_save(user_port_res_whole["dates"], [user_port_res_whole["portfolio_values"], portfolio_values]\
-					, ["user's portfolio", "improved portfolio"], "img/domi_res.png")
+					, ["user's portfolio", "improved portfolio"], "static/img/domi_res.png")
 	return {	"original_value": {"portfolio_values": user_port_res_whole["portfolio_values"], \
 									"stats": user_port_res_whole["stats"]}, \
 				"dominant": {"portfolio_values": portfolio_values, "stats": stats}, \
@@ -321,11 +323,15 @@ def port_cont_procedure(asset_data, user_input, id_ticker_mapping, ticker_id_map
 	cvar_port_back_test_res = back_testing_procedure(asset_data, cvar_port, \
 														id_ticker_mapping, ticker_id_mapping, False)
 	# import pdb; pdb.set_trace()
+	print("current wd:" + os.getcwd())
 	if not os.path.exists("img"):
 		os.mkdir("img")
+	if not os.path.exists("static/img"):
+		os.mkdir("static/img")
+	os.system("rm static/img/*")
 	plot_and_save(dates + ["2018-10-31"], [cvar_port_back_test_res["portfolio_values"], \
 											mvo_port_back_test_res["portfolio_values"]], \
-						["CVaR", "MVO"], "img/port_c_res.png")
+						["CVaR", "MVO"], "static/img/port_c_res.png")
 	if cvar_port_back_test_res["stats"]["sharpe"] > mvo_port_back_test_res["stats"]["sharpe"]:
 		return {"port": cvar_port, "back_test": cvar_port_back_test_res, "taken": "CVaR", "objective": "c"}
 	else:

@@ -6,6 +6,7 @@
     "\\src\\img",
     "\\src\\models",
     "\\src\\static",
+    "\\src\\static\\img",
     "\\src\\templates",
     "\\src\\test"
   ],

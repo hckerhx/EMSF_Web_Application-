@@ -1,13 +1,5 @@
-#import sys
-#sys.path.insert(0,
-#'C:/Users/hang/source/repos/EMSF_Web_Application-/EMSF_Web_Application/src')
 
-
-#to do 
-#insert png picture into the correct folder 
-#search about store mongoDB keys with dot 
-#retrieve the correct form of data/right ordering of from mongoDB
-#clean up documents
+#dominance not better/image saving path/dot in the data file
 
 from common.database import Database
 from models.portfolio import Portfolio
@@ -145,7 +137,7 @@ def user_dresult():
 
     #display profit and sharpe ratio on the website 
 
-    return render_template("Rresultd.html", p_return = p_return, p_sharpe = p_sharpe)#profit and sharpe ratio
+    return render_template("Rresultd.html", p_return = p_return, p_sharpe = p_sharpe)
 
 @app.route('/portdomi', methods=['POST', 'GET'])
 def user_portfolio_domi():
@@ -163,7 +155,6 @@ def user_portfolio_domi():
             else:
                 break
 
-        #new_asset['target_return'] = request.form.get('target_return')
         new_asset['start_date'] = request.form.get('start_date')
         new_asset['end_date'] = request.form.get('end_date')
 
@@ -199,8 +190,8 @@ def user_cresult():
     u_result = Database.find_one(collection='result',
                                       query={'user_email': session['email'], 'objective': 'c'})
 
-    p_return = u_result['stats']['total_return']
-    p_sharpe = u_result['stats']['sharpe']
+    p_return = u_result['back_test']['stats']['total_return']
+    p_sharpe = u_result['back_test']['stats']['sharpe']
 
     #display profit and sharpe ratio on the website 
 
